@@ -9,15 +9,15 @@ export class AudioPlayer {
   #parentEl
   #audio
   #el
-  
+
   constructor() {
     // força que as funções mantenham o `this` mesmo quando acionadas
     // por eventos (usando o fn.bind(this))
     this.#playOrPause = this.#playOrPause.bind(this)
     this.#updateProgress = this.#updateProgress.bind(this)
   }
-  
-  start({audioUrl, coverImageUrl, title, artist}, parentEl) {
+
+  start({ audioUrl, coverImageUrl, title, artist }, parentEl) {
     this.#audioUrl = audioUrl
     this.#coverImageUrl = coverImageUrl
     this.#title = title
@@ -30,20 +30,20 @@ export class AudioPlayer {
     this.#progressEl = this.#el.querySelector('.audio-progress')
     this.#progressEl.value = 0
     this.#coverImageEl = this.#el.querySelector('.audio-cover')
-    
+
     if (!AudioPlayer.#STYLES_ATTACHED) {
       const styleEl = document.createElement('style')
       styleEl.innerHTML = AudioPlayer.#styles
       document.head.appendChild(styleEl)
-      
+
       AudioPlayer.#STYLES_ATTACHED = true
     }
-    
+
     this.#parentEl.appendChild(this.#el)
     this.#audio = new Audio(this.#audioUrl)
     this.#audio.volume = 0.05
     this.#audio.addEventListener('timeupdate', this.#updateProgress)
-    
+
     setTimeout(() => this.#progressEl.style.width = this.#el.offsetHeight + 'px', 0)
   }
 
@@ -81,7 +81,7 @@ export class AudioPlayer {
     return !this.#audio?.paused
   }
 
- #render() {
+  #render() {
     return `
       <div class="audio-player">
         <div class="audio-cover-container">
@@ -238,7 +238,7 @@ export class AudioPlayer {
 
 let player = new AudioPlayer()
 
-export function play({audioUrl, coverImageUrl, title, artist}, parentEl) {
-  player.start({audioUrl, coverImageUrl, title, artist}, parentEl)
+export function play({ audioUrl, coverImageUrl, title, artist }, parentEl) {
+  player.start({ audioUrl, coverImageUrl, title, artist }, parentEl)
 }
 
